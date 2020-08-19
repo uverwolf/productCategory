@@ -72,6 +72,20 @@ public class ProductosController {
 		servicios.agregarCat(id, catego);
 		return "redirect:/products/"+id;
 	}
+	@GetMapping("/categories/ver/{id}")
+		public String agregaProdCategoria( @ModelAttribute("prodValido")Product prod,@PathVariable("id") Long id, Model modelo) {
+			Category categoriaE= servicios.encontrarCategoria(id);
+			modelo.addAttribute("categoria",categoriaE);
+			modelo.addAttribute("productos", servicios.verProductos());
+			modelo.addAttribute("prodAsociados",servicios.prodAsociados(id));
+			return "vistas/agregarProdCat.jsp";
+		}
+	@PostMapping("/categories/ver/{id}")
+	public String agregarProducto(@ModelAttribute("prodValido")Product producto, @PathVariable("id")Long id) {
+		
+		servicios.agregarProducto(id, producto);
+		return "redirect:/categories/ver/"+id;
+	}
 	
 	
 	

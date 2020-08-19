@@ -44,9 +44,23 @@ public class ProductService {
 			return null;
 		}
 	}
+	public Category encontrarCategoria(Long id) {
+		Optional<Category> categoria = catServ.findById(id);
+		if(categoria.isPresent()) {
+			return categoria.get();
+		}else {
+			return null;
+		}
+	}
+	
+	
 	public List<Category> catAsociadas(Long id){
 		
 		return catServ.findAllByProductsId(id);
+	}
+	public List<Product> prodAsociados(Long id){
+		
+		return servicios.findAllByCategoriesId(id);
 	}
 	
 	public Product agregarCat(Long id,Category categoria) {
@@ -55,6 +69,17 @@ public class ProductService {
 			producto.get().getCategories().add(categoria);
 			
 			return servicios.save(producto.get());
+		}else {
+			return null;
+		}
+	}
+	
+	public Category agregarProducto(Long id,Product producto) {
+		Optional<Category> categoria = catServ.findById(id);
+		if(categoria.isPresent()) {
+			categoria.get().getProducts().add(producto);
+			
+			return servicios.save(categoria.get());
 		}else {
 			return null;
 		}
